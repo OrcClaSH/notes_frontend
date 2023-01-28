@@ -1,0 +1,57 @@
+@import '@/assets/scss/variables';
+
+.notes {
+    height: inherit;
+    border: 1px solid rgb(255 255 255 / 20%);
+    max-width: 300px;
+    padding: 0 10px;
+    overflow: hidden;
+    background-color: $color-background-element;
+
+    &__wrapper {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-title {
+            margin: 30px 0;
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 38px;
+            color: $color-active-text;
+        }
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        flex: 1 1 auto;
+    }
+
+    &__add {
+        display: flex;
+        align-items: center;
+        margin-bottom: 40px;
+
+        &-icon {
+            fill: $color-passive-text;
+            margin-right: 18px;
+            width: 28px;
+            height: 28px;
+        }
+
+        &-text {
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 24px;
+            color: $color-passive-text;
+        }
+    }
+}

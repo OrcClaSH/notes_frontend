@@ -1,11 +1,28 @@
-// @font-face {
-//   font-family: 'Proxima Nova';
-//   src: url('./fonts/ProximaNova-Black.eot');
-//   src: local('./fonts/Proxima Nova Black'), local('ProximaNova-Black'),
-//     url('./fonts/ProximaNova-Black.eot?#iefix') format('embedded-opentype'),
-//     url('./fonts/ProximaNova-Black.woff') format('woff'),
-//     url('./fonts/ProximaNova-Black.ttf') format('truetype');
-//   font-weight: 900;
-//   font-style: normal;
-// }
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+
+@font-face {
+    font-family: 'datcub';
+    src: url('../fonts/Datcub.woff2') format('woff2'),
+         url('../fonts/Datcub.ttf') format('truetype'),
+         url('../fonts/Datcub.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'datcub';
+    src: url('../fonts/DatcubBold.woff2') format('woff2'),
+         url('../fonts/DatcubBold.ttf') format('truetype'),
+         url('../fonts/DatcubBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'datcub';
+    src: url('../fonts/DatcubLight.woff2') format('woff2'),
+         url('../fonts/DatcubLight.ttf') format('truetype'),
+         url('../fonts/DatcubLight.woff') format('woff');
+    font-weight: normal;
+    font-style: light;
+}
