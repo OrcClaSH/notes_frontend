@@ -19,7 +19,7 @@ const NoteDetail: FC = () => {
         const result = textSplit.map((item, index) => {
 
             if (!item.includes("</code>")) {
-                return <p className={st["note-detail__text"]}>{item}</p>;
+                return <p className={st["note-detail__text"]} key={index}>{item}</p>;
             }
 
             const parsedText = item.split("</code>")
@@ -27,7 +27,7 @@ const NoteDetail: FC = () => {
             const code = parsedText[0].trim();
             const text = parsedText[1].trim();
             return (
-                <>
+                <div key={`${index}b`}>
                     <div className={st['note-detail__code-wrapper']}>
                         <Highlight
                             className={st['note-detail__code']}
@@ -35,10 +35,10 @@ const NoteDetail: FC = () => {
                         >
                             {code}
                         </Highlight>
-                        <CopyImg className={st['note-detail__icon']} />
+                        <CopyImg className={st['note-detail__icon']} key={`${index}a`}/>
                     </div>
                     <p className={st["note-detail__text"]}>{text}</p>
-                </>
+                </div>
             );
         });
         return result;
