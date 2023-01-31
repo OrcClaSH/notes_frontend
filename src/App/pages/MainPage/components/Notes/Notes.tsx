@@ -37,17 +37,21 @@ const Notes: FC = () => {
         <section className={st.notes}>
             <div className={st.notes__wrapper}>
                 <div className={st.notes__header}>
-                    <h2 className={st['notes__header-title']}>ActiveTheme</h2>
+                    <h2 className={st['notes__header-title']}>
+                        {activeTheme && activeTheme.title}
+                    </h2>
                 </div>
                 <Search placeholder="Search notes" />
                 <div className={st.notes__items}>
-                    {notes.map(note => (
-                        <Note
-                            note={note}
-                            isActive={handleActiveNote(note.id)}
-                            key={note.id}
-                        />
-                    ))}
+                    <div className={st['notes__items-wrapper']}>
+                        {notes.map(note => (
+                            <Note
+                                note={note}
+                                isActive={handleActiveNote(note.id)}
+                                key={note.id}
+                            />
+                        ))}
+                    </div>
                 </div>
                 <div className={st.notes__add}>
                     <PlusImg className={st['notes__add-icon']} />

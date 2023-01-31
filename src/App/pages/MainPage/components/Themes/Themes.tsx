@@ -38,18 +38,22 @@ const Themes: FC = () => {
         <section className={st.themes}>
             <div className={st.themes__wrapper}>
                 <div className={st.themes__header}>
-                    <h2 className={st['themes__header-title']}>{userName || 'UserName'}</h2>
+                    <h2 className={st['themes__header-title']}>
+                        {userName || 'UserName'}
+                    </h2>
                     <ArrowImg className={st['themes__header-icon']} />
                 </div>
                 <Search placeholder="Search themes" />
                 <div className={st.themes__items}>
-                    {themes.map(theme => (
-                        <Theme
-                            theme={theme}
-                            isActive={handleActiveTheme(theme.id)}
-                            key={theme.id}
-                        />
-                    ))}
+                    <div className={st['themes__items-wrapper']}>
+                        {themes.map(theme => (
+                            <Theme
+                                theme={theme}
+                                isActive={handleActiveTheme(theme.id)}
+                                key={theme.id}
+                            />
+                        ))}
+                    </div>
                 </div>
                 <div className={st.themes__add}>
                     <PlusImg className={st['themes__add-icon']} />

@@ -26,7 +26,7 @@ const Theme: FC<IThemeProps> = ({ theme, isActive }) => {
             className={themeCN}
             onClick={() => dispatch(setActiveTheme(theme))}
         >
-            <p className={st.theme__name}>{theme.title}</p>
+            <h2 className={st.theme__name}>{theme.title}</h2>
             {!isActive && <DotsIcon className={st.theme__icon} />}
         </div>
     )

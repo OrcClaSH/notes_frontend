@@ -4,21 +4,37 @@
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+    color: $color-active-text;
 
     &__icon {
-        margin-right: 14px;
+        min-width: 17px;
+        width: 17px;
+        height: 17px;
+        margin-right: 5px;
         fill: $color-passive-text;
     }
 
     &__input {
+        width: 100%;
         background-color: $color-background-element;
         border: none;
+        border-radius: 4px;
         font-size: 20px;
         line-height: 24px;
         padding: 5px;
+        color: inherit;
+        transition: all .2s;
+    }
+
+    &__input:hover {
+        box-shadow: inset $shadow;
     }
 
     &__input::placeholder {
         color: $color-passive-text;
+    }
+
+    &:active {
+        box-shadow: $shadow;
     }
 }

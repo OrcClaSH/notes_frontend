@@ -7,6 +7,7 @@ import { checkAuth } from '@/store/slices/user/userSlice';
 
 import st from './MainPage.module.scss';
 import Notes from './components/Notes';
+import NoteDetail from './components/NoteDetail';
 
 const MainPage:FC = () => {
     const isAuth = useAppSelector(state => state.user.isAuth)
@@ -16,6 +17,7 @@ const MainPage:FC = () => {
         <div className={st.wrapper}>
             <Themes />
             <Notes />
+            <NoteDetail />
             {!isAuth && <Signin />}
         </div>
     )
