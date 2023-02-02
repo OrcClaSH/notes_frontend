@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import Highlight from 'react-highlight'
 
 import { useAppSelector } from "@/store/store";
@@ -35,7 +35,7 @@ const NoteDetail: FC = () => {
                         >
                             {code}
                         </Highlight>
-                        <CopyImg className={st['note-detail__icon']} key={`${index}a`}/>
+                        <CopyImg className={st['note-detail__icon']} key={`${index}a`} />
                     </div>
                     <p className={st["note-detail__text"]}>{text}</p>
                 </div>

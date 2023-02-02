@@ -23,6 +23,11 @@
         fill: $color-passive-text;
         cursor: pointer;
         flex: 0 0 auto;
+        transition: $transition-icon;
+    }
+
+    &__icon:hover {
+        fill: $color-active-text;
     }
 }
 

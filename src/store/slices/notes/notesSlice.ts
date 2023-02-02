@@ -28,6 +28,9 @@ export const notesSlice = createSlice({
     reducers: {
         setActiveNote(state, action: PayloadAction<INote>) {
             state.activeNote = action.payload;
+        },
+        setTextActiveNote(state, action: PayloadAction<string>) {
+            state.activeNote.text = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -48,4 +51,4 @@ export const notesSlice = createSlice({
 });
 
 export default notesSlice.reducer;
-export const { setActiveNote } = notesSlice.actions;
+export const { setActiveNote, setTextActiveNote } = notesSlice.actions;
