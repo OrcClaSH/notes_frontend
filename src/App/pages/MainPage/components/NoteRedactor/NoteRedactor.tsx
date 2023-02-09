@@ -6,12 +6,15 @@ import { TextEditorProvider } from "@/components/TextEditor/context";
 
 import st from './NoteRedactor.module.scss';
 
+interface INoteRedactorProps {
+    onClickSave: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const NoteRedactor: FC = () => {
+const NoteRedactor: FC<INoteRedactorProps> = ({ onClickSave }) => {
     return (
         <div className={st['note-redactor']}>
             <TextEditorProvider>
-                <ToolPanel />
+                <ToolPanel onClickSave={onClickSave}/>
                 <TextEditor />
             </TextEditorProvider>
         </div>

@@ -7,6 +7,7 @@ import { ReactComponent as CopyImg } from '@/assets/img/copy.svg';
 
 import st from './NoteDetail.module.scss';
 import 'highlight.js/styles/atom-one-dark-reasonable.css'
+import DotsActions from "@/components/DotsActions";
 
 const NoteDetail: FC = () => {
     const activeNote = useAppSelector(state => state.notes.activeNote);

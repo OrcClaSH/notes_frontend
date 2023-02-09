@@ -1,0 +1,64 @@
+@import '@/assets/scss/variables';
+
+.input-modal {
+    position: absolute;
+    width: 90%;
+    bottom: 40%;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .7);
+    box-shadow: $shadow-panel;
+    padding: 5px;
+    z-index: 1;
+
+    opacity: 0;
+    transform: scale(0);
+    visibility: hidden;
+    transform-origin: right top;
+    transition: .4s, opacity .4s;
+
+    &__input {
+        background-color: $color-passive-text;
+        width: 100%;
+        border: 1px solid $color-background-element;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        padding: 5px;
+        font-size: 1.5rem;
+        line-height: 1.9rem;
+        box-shadow: $shadow-panel;
+
+        &::placeholder {
+            color: black;
+            transition: all .2s;
+        }
+
+        &:focus::placeholder {
+            opacity: .5;
+        }
+    }
+
+    &-buttons {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        & button {
+            background-color: transparent;
+            border: none;
+            font-size: 1.8rem;
+            color: transparent;
+            text-shadow: 0 0 0 $color-passive-text;
+            transition: all .2s;
+        }
+
+        & button:hover {
+            text-shadow: 0 0 0 $color-active-text;
+        }
+    }
+
+    &.active {
+        opacity: 1;
+        transform: scale(1);
+        visibility: visible;
+    }
+}

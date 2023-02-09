@@ -1,6 +1,7 @@
 @import '@/assets/scss/variables';
 
 .themes {
+    position: relative;
     height: inherit;
     border: 1px solid rgb(255 255 255 / 10%);
     padding: 0 10px;
@@ -66,27 +67,6 @@
 
         &-wrapper::-webkit-scrollbar {
             width: 0;
-        }
-    }
-
-    &__add {
-        display: flex;
-        align-items: center;
-        margin-bottom: 40px;
-        cursor: pointer;
-
-        &-icon {
-            fill: $color-passive-text;
-            margin-right: 18px;
-            width: 28px;
-            height: 28px;
-        }
-
-        &-text {
-            font-size: 20px;
-            font-weight: 400;
-            line-height: 24px;
-            color: $color-passive-text;
         }
     }
 }

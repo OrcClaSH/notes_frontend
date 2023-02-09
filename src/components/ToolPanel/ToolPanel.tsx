@@ -5,15 +5,17 @@ import { InlineStyle, BlockType } from '../TextEditor/config';
 import { useEditorApi } from '../TextEditor/context';
 
 import st from './ToolPanel.module.scss';
-import { useAppDispatch } from '@/store/store';
-import { setTextActiveNote } from '@/store/slices/notes/notesSlice';
+// import { setTextActiveNote } from '@/store/slices/notes/notesSlice';
 
-const ToolPanel: React.FC = () => {
-    const dispatch = useAppDispatch();
+interface IToolPanelProps {
+    onClickSave: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ToolPanel: React.FC<IToolPanelProps> = ({ onClickSave }) => {
 
     const {
         addLink,
-        toHtml,
+        // toHtml,
         toggleBlockType,
         currentBlockType,
         toggleInlineStyle,
@@ -24,7 +26,7 @@ const ToolPanel: React.FC = () => {
     return (
         <div className={st['tool-panel']}>
 
-            <button
+            {/* <button
                 className={cn(
                     st['tool-panel__item'],
                     currentBlockType === BlockType.h1 && st['tool-panel__item_active']
@@ -35,9 +37,9 @@ const ToolPanel: React.FC = () => {
                 }}
             >
                 Заголовок
-            </button>
+            </button> */}
 
-            <button
+            {/* <button
                 className={cn(
                     st['tool-panel__item'],
                     currentBlockType === BlockType.h2 && st['tool-panel__item_active']
@@ -48,9 +50,9 @@ const ToolPanel: React.FC = () => {
                 }}
             >
                 Подзаголовок
-            </button>
+            </button> */}
 
-            <button
+            {/* <button
                 className={cn(
                     st['tool-panel__item'],
                     currentBlockType === BlockType.cite && st['tool-panel__item_active']
@@ -61,9 +63,9 @@ const ToolPanel: React.FC = () => {
                 }}
             >
                 Сноска
-            </button>
+            </button> */}
 
-            <button
+            {/* <button
                 className={cn(
                     st['tool-panel__item'],
                     currentBlockType === BlockType.default && st['tool-panel__item_active']
@@ -74,7 +76,7 @@ const ToolPanel: React.FC = () => {
                 }}
             >
                 Простой
-            </button>
+            </button> */}
 
             {Object.values(InlineStyle).map((v) => (
                 <button
@@ -104,14 +106,14 @@ const ToolPanel: React.FC = () => {
                 LINK
             </button>
 
-            <button
+            {/* <button
                 className={st['tool-panel__item']}
                 onClick={() => {
                     console.log(toHtml());
                 }}
             >
                 Export to HTML
-            </button>
+            </button> */}
 
             <button
                 className={cn(
@@ -127,8 +129,10 @@ const ToolPanel: React.FC = () => {
             </button>
 
             <button
+                className={st['tool-panel__item']}
                 onClick={() => {
-                    dispatch(setTextActiveNote(toHtml()))
+                    save()
+                    onClickSave(false)
                 }}
             >
                 Save

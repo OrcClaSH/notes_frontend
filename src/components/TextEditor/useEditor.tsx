@@ -1,10 +1,22 @@
 import React from 'react';
-import { EditorState, RichUtils, CompositeDecorator, DraftEntityMutability, DraftEditorCommand, DraftHandleValue, KeyBindingUtil, getDefaultKeyBinding, ContentState } from 'draft-js';
+import {
+    EditorState,
+    RichUtils,
+    CompositeDecorator,
+    DraftEntityMutability,
+    DraftEditorCommand,
+    DraftHandleValue,
+    KeyBindingUtil,
+    getDefaultKeyBinding,
+    ContentState,
+    convertToRaw
+} from 'draft-js';
 
 import { BlockType, EntityType, InlineStyle, KeyCommand } from './config';
 import { HTMLtoState, stateToHTML } from "./convert";
 import LinkDecorator from './Link';
-import { useAppSelector } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { patchNote } from '@/store/slices/notes/notesSlice';
 
 export type EditorApi = {
     state: EditorState;
@@ -27,6 +39,7 @@ export type EditorApi = {
 const decorator = new CompositeDecorator([LinkDecorator]);
 
 export const useEditor = (html?: string): EditorApi => {
+    const dispatch = useAppDispatch();
     const currentNote = useAppSelector(state => state.notes.activeNote)
     const [state, setState] = React.useState(() =>
         html
@@ -39,8 +52,9 @@ export const useEditor = (html?: string): EditorApi => {
 
     React.useEffect(() => {
         if (currentNote?.text) {
-            const content = ContentState.createFromText(currentNote.text);
-            const editorState = EditorState.createWithContent(content, decorator);
+            // const content = ContentState.createFromText(currentNote.text);
+            // const editorState = EditorState.createWithContent(content, decorator);
+            const editorState = EditorState.createWithContent(HTMLtoState(currentNote.text), decorator);
             setState(editorState);
         }
     }, [currentNote])
@@ -130,7 +144,8 @@ export const useEditor = (html?: string): EditorApi => {
 
     const save = React.useCallback(
         () => {
-            console.log(state.getCurrentContent().getAllEntities())
+            dispatch(patchNote({...currentNote, text: toHtml()}))
+            // console.log(state.getCurrentContent().getAllEntities())
         }, [state]
     );
 

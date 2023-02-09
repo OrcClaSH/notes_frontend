@@ -1,11 +1,12 @@
 import { FC } from "react";
 import cn from "classnames";
 
+import { createMarkup } from '@/utils';
+import { useAppDispatch } from "@/store/store";
 import { INote } from "@/store/slices/notes/types";
+import { setActiveNote } from "@/store/slices/notes/notesSlice";
 
 import st from './Note.module.scss';
-import { useAppDispatch } from "@/store/store";
-import { setActiveNote } from "@/store/slices/notes/notesSlice";
 
 interface INoteProps {
     note: INote;
@@ -31,7 +32,8 @@ const Note: FC<INoteProps> = ({ note, isActive }) => {
         >
             <time className={st.note__date}>{`${day}.${month}.${year}`}</time>
             <h2 className={st.note__title}>{title}</h2>
-            <p className={st.note__text}>{text}</p>
+            {/* <p className={st.note__text}>{text}</p> */}
+            <p className={st.note__text} dangerouslySetInnerHTML={createMarkup(text)}></p>
         </div>
     )
 };

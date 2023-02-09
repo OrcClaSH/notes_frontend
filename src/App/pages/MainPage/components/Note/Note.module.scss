@@ -23,6 +23,7 @@
     }
 
     &__text {
+        width: 100%;
         font-weight: 400;
         font-size: 14px;
         line-height: 178.02%;
@@ -33,6 +34,10 @@
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+
+        & p {
+            color: inherit;
+        }
     }
 }
 

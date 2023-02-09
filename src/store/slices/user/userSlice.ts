@@ -2,7 +2,7 @@ import { AnyAction, createAsyncThunk, createSlice, PayloadAction, current } from
 import { AxiosError } from 'axios';
 
 import { IUser, IAuthResponse, IUserState } from './types';
-import AuthService from '@/services/AuthService';
+import WithAuthService from '@/services/WithAuthService';
 
 interface IArgs {
     username: string;
@@ -22,7 +22,7 @@ export const login = createAsyncThunk<IAuthResponse, IArgs, {rejectValue: string
     async function (args, { rejectWithValue }) {
         const {username, password} = args;
         try {
-            const response = await AuthService.login(username, password);
+            const response = await WithAuthService.login(username, password);
             // return response.data;
             return {...response.data, user: {username, id: 3}} //! only test
         } catch (error: any) {
@@ -35,7 +35,7 @@ export const login = createAsyncThunk<IAuthResponse, IArgs, {rejectValue: string
 export const checkAuth = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: string}>(
     'user/checkAuth',
     async function( IArgs, { rejectWithValue }) {
-        const response = await AuthService.refresh();
+        const response = await WithAuthService.refresh();
         console.log('response', response)
         if (response.status !== 200) {
             return rejectWithValue('Проблемы с обновлением токена пользователя')

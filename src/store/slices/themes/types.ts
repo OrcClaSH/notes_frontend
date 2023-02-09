@@ -7,7 +7,9 @@ export interface ITheme {
 export interface IThemesState {
     themes: ITheme[];
     activeTheme: ITheme;
+    redactionTheme: ITheme;
     isLoading: Boolean;
+    isRedaction: Boolean;
     error: string;
 };
 

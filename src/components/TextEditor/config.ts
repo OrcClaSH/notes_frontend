@@ -48,7 +48,7 @@ export const BLOCK_RENDER_MAP = DefaultDraftBlockRenderMap.merge(
 
 export const CUSTOM_STYLE_MAP = {
     [InlineStyle.ACCENT]: {
-        backgroundColor: '#F7F6F3',
-        color: '#A41E68',
+        backgroundColor: '#f7a08d',
+        color: '#F7F6F3',
     },
 };

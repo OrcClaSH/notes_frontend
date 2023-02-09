@@ -1,7 +1,25 @@
+@import '@/assets/scss/variables';
+
 .text-editor {
-    border: 1px solid black;
     padding: 15px;
     cursor: pointer;
+    background-color: $color-background-element;
+    border: 1px solid $color-passive-text;
+    border-radius: 4px;
+    box-shadow: inset $shadow;
+
+    & span {
+        color: $color-active-text;
+    }
+
+    a span {
+        color: aqua;
+        cursor: pointer;
+    }
+
+    div {
+        color: $color-active-text;
+    }
 }
 
 .public-DraftEditor-content {

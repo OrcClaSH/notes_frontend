@@ -1,8 +1,5 @@
-.note-redactor {
-    background-color: bisque;
+@import '@/assets/scss/variables';
 
-    a span {
-        color:blue;
-        cursor: pointer;
-    }
+.note-redactor {
+    background-color: $color-background-element;
 }

@@ -1,0 +1,96 @@
+@import '@/assets/scss/variables';
+
+.note-detail {
+    height: inherit;
+    padding: 0 10px;
+    width: 50%;
+    min-width: 300px;
+    border: 1px solid rgb(255 255 255 / 10%);
+    background-color: $color-background-element;
+    flex: 1 1 auto;
+
+    &__wrapper {
+        // overflow-x: auto;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin: 30px 0;
+
+        &-title {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 32px;
+            line-height: 39px;
+            color: $color-active-text;
+        }
+    }
+
+    &__icon {
+        flex: 0 0 auto;
+        fill: $color-passive-text;
+        transition: $transition-icon;
+        cursor: pointer;
+    }
+
+    &__icon:hover {
+        fill: $color-active-text;
+    }
+
+    &__text {
+        margin-bottom: 1rem;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: $color-active-text;
+    }
+
+    &__text span,
+    &__text p {
+        color: $color-active-text;
+    }
+
+    &__text a {
+        color: aqua;
+    }
+
+    &__code-wrapper {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        overflow: hidden;
+    }
+
+    &__code {}
+
+    & pre {
+        margin-bottom: 1rem;
+        overflow-x: auto;
+    }
+
+    ::-webkit-scrollbar {
+        width: 1px;
+    }
+
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 3px grey;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: $color-passive-text;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: $color-active-text;
+    }
+
+
+    & pre code {
+        border-radius: 8px;
+    }
+}

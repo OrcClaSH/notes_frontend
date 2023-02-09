@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 
 import st from './Notes.module.scss';
 
@@ -7,14 +7,14 @@ import Search from "@/components/Search";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { fetchNotes, setActiveNote } from "@/store/slices/notes/notesSlice";
 import Note from "../Note/Note";
+import { selectorNotesWithActiveTheme } from "@/store/selectors";
 
 const Notes: FC = () => {
+    const dispatch = useAppDispatch();
+    const isAuth = useAppSelector(state => state.user.isAuth)
     const activeTheme = useAppSelector(state => state.themes.activeTheme)
     const activeNote = useAppSelector(state => state.notes.activeNote);
-    const notes = useAppSelector(
-        state => state.notes.notes.filter(
-            note => note.theme === activeTheme?.title?.toLowerCase()));
-    const dispatch = useAppDispatch();
+    const notes = useAppSelector(selectorNotesWithActiveTheme(activeTheme))
 
     const handleActiveNote = (id: number) => {
         if (activeNote) {
@@ -25,7 +25,7 @@ const Notes: FC = () => {
 
     useEffect(() => {
         dispatch(fetchNotes(''))
-    }, []);
+    }, [isAuth, activeTheme]);
 
     useEffect(() => {
         const minNoteID = Math.min(...notes.map(note => note.id))

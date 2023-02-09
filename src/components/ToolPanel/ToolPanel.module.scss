@@ -1,9 +1,12 @@
+@import '@/assets/scss/variables';
+
 .tool-panel {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     margin-left: -5px;
     margin-right: -5px;
+    background-color: $color-background-element;
 
     &__item {
         flex-shrink: 0;

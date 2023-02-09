@@ -1,21 +1,24 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 
 import st from './Themes.module.scss';
 
 import { ReactComponent as ArrowImg } from '@/assets/img/arrow.svg';
-import { ReactComponent as PlusImg } from '@/assets/img/plus.svg'
 import Search from "@/components/Search";
 import Theme from "../Theme";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { fetchThemes, setActiveTheme } from "@/store/slices/themes/themesSlice";
+import { createTheme, fetchThemes, setActiveTheme } from "@/store/slices/themes/themesSlice";
+import InputTheme from "@/components/InputTheme";
+import AddNewBtn from "../AddNewBtn/AddNewBtn";
 
 const Themes: FC = () => {
+    const isAuth = useAppSelector(state => state.user.isAuth)
     const userName = useAppSelector(state => state.user.user.username)
     const themes = useAppSelector(state => state.themes.themes);
     const activeTheme = useAppSelector(state => state.themes.activeTheme);
+    const [newThemeTitle, setNewThemeTitle] = useState('');
     const dispatch = useAppDispatch();
 
-    const handleActiveTheme = (id: number) => {
+    const isActiveTheme = (id: number) => {
         if (activeTheme) {
             return activeTheme.id === id;
         }
@@ -24,7 +27,7 @@ const Themes: FC = () => {
 
     useEffect(() => {
         dispatch(fetchThemes(''))
-    }, []);
+    }, [isAuth]);
 
     useEffect(() => {
         if (!activeTheme?.id) {
@@ -49,16 +52,20 @@ const Themes: FC = () => {
                         {themes.map(theme => (
                             <Theme
                                 theme={theme}
-                                isActive={handleActiveTheme(theme.id)}
+                                isActive={isActiveTheme(theme.id)}
                                 key={theme.id}
                             />
                         ))}
                     </div>
                 </div>
-                <div className={st.themes__add}>
-                    <PlusImg className={st['themes__add-icon']} />
-                    <p className={st['themes__add-text']}>Add new theme</p>
-                </div>
+                <AddNewBtn buttonText={'Add new theme'} />
+                <InputTheme
+                    // inlineValue={newThemeTitle}
+                    // setInlineValue={setNewThemeTitle}
+                    // buttonText='Add new theme'
+                    placeholder='Theme name'
+                    // onClick={() => dispatch(createTheme({ title: newThemeTitle }))}
+                />
             </div>
         </section>
     )

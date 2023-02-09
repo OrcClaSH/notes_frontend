@@ -17,7 +17,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ className }) => {
     return (
         <div className={cn(st['text-editor'], className)}>
             <Editor
-                placeholder='Введите ваш текст'
+                placeholder='Enter your text'
                 editorState={editorApi.state}
                 onChange={editorApi.onChange}
                 blockRenderMap={BLOCK_RENDER_MAP}

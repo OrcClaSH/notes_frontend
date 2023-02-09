@@ -4,10 +4,10 @@ import cn from 'classnames';
 
 import st from './Theme.module.scss';
 
-import { ReactComponent as DotsIcon } from '@/assets/img/dots.svg';
 import { useAppDispatch } from "@/store/store";
-import { setActiveTheme } from "@/store/slices/themes/themesSlice";
+import { deleteTheme, patchTheme, setActiveTheme, setIsRedaction } from "@/store/slices/themes/themesSlice";
 import { ITheme } from "@/store/slices/themes/types";
+import DotsActions from "@/components/DotsActions";
 
 interface IThemeProps {
     theme: ITheme
@@ -16,10 +16,14 @@ interface IThemeProps {
 
 const Theme: FC<IThemeProps> = ({ theme, isActive }) => {
     const dispatch = useAppDispatch();
-    const themeCN  = cn(
+    const themeCN = cn(
         st.theme,
         isActive ? st.active : '',
-    )
+    );
+
+    const handleEditTheme = () => {
+        dispatch(setIsRedaction({ isRedaction: true, theme }));
+    };
 
     return (
         <div
@@ -27,9 +31,14 @@ const Theme: FC<IThemeProps> = ({ theme, isActive }) => {
             onClick={() => dispatch(setActiveTheme(theme))}
         >
             <h2 className={st.theme__name}>{theme.title}</h2>
-            {!isActive && <DotsIcon className={st.theme__icon} />}
+
+            <DotsActions
+                actions={[
+                    { text: 'Edit', action: handleEditTheme },
+                    { text: 'Delete', action: () => dispatch(deleteTheme(theme.id)) }
+                ]} />
         </div>
     )
-}
+};
 
 export default Theme;
