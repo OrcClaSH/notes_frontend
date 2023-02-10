@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import st from './InputTheme.module.scss';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { createTheme, patchTheme, setIsRedaction } from '@/store/slices/themes/themesSlice';
+import { createTheme, patchTheme, setRedactionTheme } from '@/store/slices/themes/themesSlice';
 
 interface IAddNewProps {
     placeholder: string;
@@ -26,7 +26,7 @@ const InputTheme: FC<IAddNewProps> = ({ placeholder }) => {
         } else {
             dispatch(patchTheme({...redactionTheme, title}))
         }
-        dispatch(setIsRedaction({ isRedaction: false }))
+        dispatch(setRedactionTheme({ isRedaction: false }))
         setTitle('')
     };
 
@@ -49,7 +49,7 @@ const InputTheme: FC<IAddNewProps> = ({ placeholder }) => {
             />
             <div className={st['input-modal-buttons']}>
                 <button onClick={handleCreateOrChange}>✔️</button>
-                <button onClick={() => dispatch(setIsRedaction({ isRedaction: false }))}>❌</button>
+                <button onClick={() => dispatch(setRedactionTheme({ isRedaction: false }))}>❌</button>
             </div>
         </div>
 

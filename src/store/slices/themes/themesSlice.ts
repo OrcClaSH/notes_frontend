@@ -70,7 +70,7 @@ export const themesSlice = createSlice({
         setActiveTheme(state, action: PayloadAction<ITheme>) {
             state.activeTheme = action.payload;
         },
-        setIsRedaction(state, action: PayloadAction<{isRedaction: Boolean, theme?: ITheme}>) {
+        setRedactionTheme(state, action: PayloadAction<{isRedaction: Boolean, theme?: ITheme}>) {
             state.isRedaction = action.payload.isRedaction;
             if (action.payload.theme && action.payload.isRedaction) {
                 state.redactionTheme = action.payload.theme;
@@ -143,4 +143,4 @@ export const themesSlice = createSlice({
 
 export default themesSlice.reducer;
 
-export const { setActiveTheme, setIsRedaction } = themesSlice.actions;
+export const { setActiveTheme, setRedactionTheme } = themesSlice.actions;

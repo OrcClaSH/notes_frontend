@@ -78,7 +78,7 @@ const ToolPanel: React.FC<IToolPanelProps> = ({ onClickSave }) => {
                 Простой
             </button> */}
 
-            {Object.values(InlineStyle).map((v) => (
+            {/* {Object.values(InlineStyle).map((v) => (
                 <button
                     key={v}
                     className={cn(
@@ -91,6 +91,22 @@ const ToolPanel: React.FC<IToolPanelProps> = ({ onClickSave }) => {
                     }}
                 >
                     {v}
+                </button>
+            ))} */}
+
+            {Object.entries(InlineStyle).map(v => (
+                <button
+                    key={v[1]}
+                    className={cn(
+                        st['tool-panel__item'],
+                        hasInlineStyle(v[1]) && st['tool-panel__item_active']
+                    )}
+                    onMouseDown={(e) => {
+                        e.preventDefault();
+                        toggleInlineStyle(v[1]);
+                    }}
+                >
+                    {v[0]}
                 </button>
             ))}
 
@@ -125,7 +141,7 @@ const ToolPanel: React.FC<IToolPanelProps> = ({ onClickSave }) => {
                     toggleBlockType(BlockType.code);
                 }}
             >
-                Code
+                {'< / >'}
             </button>
 
             <button

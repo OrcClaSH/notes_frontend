@@ -24,9 +24,9 @@ export enum BlockType {
 };
 
 export enum InlineStyle {
-    BOLD = 'BOLD',
-    ITALIC = 'ITALIC',
-    UNDERLINE = 'UNDERLINE',
+    B = 'BOLD',
+    I = 'ITALIC',
+    U = 'UNDERLINE',
     ACCENT = 'ACCENT', // Код произвольного стиля
 };
 

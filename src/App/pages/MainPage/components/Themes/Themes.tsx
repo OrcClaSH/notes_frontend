@@ -6,7 +6,7 @@ import { ReactComponent as ArrowImg } from '@/assets/img/arrow.svg';
 import Search from "@/components/Search";
 import Theme from "../Theme";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { createTheme, fetchThemes, setActiveTheme } from "@/store/slices/themes/themesSlice";
+import { setRedactionTheme, fetchThemes, setActiveTheme } from "@/store/slices/themes/themesSlice";
 import InputTheme from "@/components/InputTheme";
 import AddNewBtn from "../AddNewBtn/AddNewBtn";
 
@@ -15,7 +15,8 @@ const Themes: FC = () => {
     const userName = useAppSelector(state => state.user.user.username)
     const themes = useAppSelector(state => state.themes.themes);
     const activeTheme = useAppSelector(state => state.themes.activeTheme);
-    const [newThemeTitle, setNewThemeTitle] = useState('');
+    const isRedaction = useAppSelector(state => state.themes.isRedaction);
+
     const dispatch = useAppDispatch();
 
     const isActiveTheme = (id: number) => {
@@ -58,14 +59,11 @@ const Themes: FC = () => {
                         ))}
                     </div>
                 </div>
-                <AddNewBtn buttonText={'Add new theme'} />
-                <InputTheme
-                    // inlineValue={newThemeTitle}
-                    // setInlineValue={setNewThemeTitle}
-                    // buttonText='Add new theme'
-                    placeholder='Theme name'
-                    // onClick={() => dispatch(createTheme({ title: newThemeTitle }))}
+                <AddNewBtn
+                    buttonText={'Add new theme'}
+                    onClick={() => dispatch(setRedactionTheme({isRedaction: !isRedaction}))}
                 />
+                <InputTheme placeholder='Theme name' />
             </div>
         </section>
     )

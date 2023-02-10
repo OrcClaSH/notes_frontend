@@ -1,13 +1,14 @@
 import { FC, useEffect } from "react";
 
-import st from './Notes.module.scss';
-
-import { ReactComponent as PlusImg } from '@/assets/img/plus.svg'
-import Search from "@/components/Search";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { fetchNotes, setActiveNote } from "@/store/slices/notes/notesSlice";
-import Note from "../Note/Note";
 import { selectorNotesWithActiveTheme } from "@/store/selectors";
+import AddNewBtn from "../AddNewBtn";
+import Search from "@/components/Search";
+import Note from "../Note/Note";
+
+import st from './Notes.module.scss';
+
 
 const Notes: FC = () => {
     const dispatch = useAppDispatch();
@@ -53,10 +54,10 @@ const Notes: FC = () => {
                         ))}
                     </div>
                 </div>
-                <div className={st.notes__add}>
-                    <PlusImg className={st['notes__add-icon']} />
-                    <p className={st['notes__add-text']}>Add new note</p>
-                </div>
+                <AddNewBtn
+                    buttonText="Add new note"
+                    onClick={() => console.log('click')}
+                />
             </div>
         </section>
     )

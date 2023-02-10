@@ -5,7 +5,7 @@ import cn from 'classnames';
 import st from './Theme.module.scss';
 
 import { useAppDispatch } from "@/store/store";
-import { deleteTheme, patchTheme, setActiveTheme, setIsRedaction } from "@/store/slices/themes/themesSlice";
+import { deleteTheme, patchTheme, setActiveTheme, setRedactionTheme } from "@/store/slices/themes/themesSlice";
 import { ITheme } from "@/store/slices/themes/types";
 import DotsActions from "@/components/DotsActions";
 
@@ -22,7 +22,7 @@ const Theme: FC<IThemeProps> = ({ theme, isActive }) => {
     );
 
     const handleEditTheme = () => {
-        dispatch(setIsRedaction({ isRedaction: true, theme }));
+        dispatch(setRedactionTheme({ isRedaction: true, theme }));
     };
 
     return (
