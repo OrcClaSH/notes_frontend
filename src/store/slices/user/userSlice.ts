@@ -32,11 +32,24 @@ export const login = createAsyncThunk<IAuthResponse, IArgs, {rejectValue: string
     }
 );
 
+export const getUser = createAsyncThunk<IUser, any, {rejectValue: string}>(
+    'user/getUser',
+    async function (_, thunkAPI) {
+        const response = await WithAuthService.getUser();
+
+        if (response.status !== 200) {
+            return thunkAPI.rejectWithValue('Проблема с получением данных о пользователе')
+        }
+
+        return response.data;
+    }
+);
+
 export const checkAuth = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: string}>(
     'user/checkAuth',
-    async function( IArgs, { rejectWithValue }) {
+    async function( _, { rejectWithValue }) {
         const response = await WithAuthService.refresh();
-        console.log('response', response)
+
         if (response.status !== 200) {
             return rejectWithValue('Проблемы с обновлением токена пользователя')
         }
@@ -50,6 +63,7 @@ export const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+
             .addCase(login.pending, (state) => {
                 state.isLoading = true;
             })
@@ -67,6 +81,7 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload || 'logging error'
             })
+
             .addCase(checkAuth.pending, (state) => {
                 state.isLoading = true;
             })
@@ -75,11 +90,26 @@ export const userSlice = createSlice({
                 state.isAuth = true;
                 state.error = '';
                 // state.user = action.payload.user;
+                // console.log(action.payload.user)
                 localStorage.setItem('token', action.payload.access);
             })
             .addCase(checkAuth.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.error.message || 'check auth error';
+            })
+
+            .addCase(getUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isAuth = true; //TODO temp test
+                state.user = action.payload;
+                state.error = '';
+            })
+            .addCase(getUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload || 'get user data error'
             })
     }
 })

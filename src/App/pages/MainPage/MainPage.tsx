@@ -1,30 +1,38 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import Signin from '@/components/Signin';
-import { useAppSelector } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 import Themes from './components/Themes';
 
 import st from './MainPage.module.scss';
 import Notes from './components/Notes';
-import NoteDetail from './components/NoteDetail';
 import NoteRedactor from './components/NoteRedactor';
-import NoteTestEditor from './components/NoteTestEditor';
-import NoteTestDetail from './components/NoteTestDetail';
+import NoteDetail from './components/NoteDetail';
+import { checkAuth, getUser } from '@/store/slices/user/userSlice';
 
 
 const MainPage: FC = () => {
-    const [isRedactionNote, setIsRedactionNote] = useState(false);
-    const isAuth = useAppSelector(state => state.user.isAuth)
-    const isActiveTheme = useAppSelector(state => state.themes.activeTheme)
+    const dispatch = useAppDispatch();
+    const isAuth = useAppSelector(state => state.user.isAuth);
+    const isActiveTheme = useAppSelector(state => state.themes.activeTheme);
+    const notesStatus = useAppSelector(state => state.notes.status);
+
+    console.log('isAuth', isAuth)
+    useEffect(() => {
+        dispatch(getUser(''))
+    }, [])
+
+    const elementsBasedOnStatus = {
+        redaction: <NoteRedactor />,
+        creating: <NoteRedactor />,
+        read: <NoteDetail />,
+    };
 
     return (
         <div className={st.wrapper}>
             <Themes />
             <Notes />
-            {isRedactionNote
-                ? <NoteRedactor onClickSave={setIsRedactionNote} />
-                : <NoteTestDetail onClickEdit={setIsRedactionNote} />
-            }
+            {elementsBasedOnStatus[notesStatus]}
             {(!isAuth && !isActiveTheme) && <Signin />}
         </div>
     )

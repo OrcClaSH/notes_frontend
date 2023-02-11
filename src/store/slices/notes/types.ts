@@ -8,9 +8,11 @@ export interface INote {
     is_public: boolean;
     hash_link: string;
 }
+
 export interface INotesState {
     notes: INote[];
     activeNote: INote;
     isLoading: Boolean;
+    status: 'redaction' | 'creating' | 'read';
     error: string;
 };

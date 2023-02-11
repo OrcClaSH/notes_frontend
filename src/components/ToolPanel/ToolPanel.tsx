@@ -5,13 +5,15 @@ import { InlineStyle, BlockType } from '../TextEditor/config';
 import { useEditorApi } from '../TextEditor/context';
 
 import st from './ToolPanel.module.scss';
+import { INote } from '@/store/slices/notes/types';
 // import { setTextActiveNote } from '@/store/slices/notes/notesSlice';
 
 interface IToolPanelProps {
-    onClickSave: React.Dispatch<React.SetStateAction<boolean>>;
+    onClickSave: () => void;
+    modifiedNote: INote;
 }
 
-const ToolPanel: React.FC<IToolPanelProps> = ({ onClickSave }) => {
+const ToolPanel: React.FC<IToolPanelProps> = ({ onClickSave, modifiedNote }) => {
 
     const {
         addLink,
@@ -147,8 +149,8 @@ const ToolPanel: React.FC<IToolPanelProps> = ({ onClickSave }) => {
             <button
                 className={st['tool-panel__item']}
                 onClick={() => {
-                    save()
-                    onClickSave(false)
+                    onClickSave()
+                    save(modifiedNote)
                 }}
             >
                 Save

@@ -16,7 +16,8 @@ import { BlockType, EntityType, InlineStyle, KeyCommand } from './config';
 import { HTMLtoState, stateToHTML } from "./convert";
 import LinkDecorator from './Link';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { patchNote } from '@/store/slices/notes/notesSlice';
+import { createNote, patchNote } from '@/store/slices/notes/notesSlice';
+import { INote } from '@/store/slices/notes/types';
 
 export type EditorApi = {
     state: EditorState;
@@ -33,14 +34,16 @@ export type EditorApi = {
         editorState: EditorState
     ) => DraftHandleValue;
     handlerKeyBinding: (e: React.KeyboardEvent) => KeyCommand | null;
-    save: () => void;
+    save: (nowNote: INote) => void;
 };
 
 const decorator = new CompositeDecorator([LinkDecorator]);
 
 export const useEditor = (html?: string): EditorApi => {
     const dispatch = useAppDispatch();
-    const currentNote = useAppSelector(state => state.notes.activeNote)
+    const currentTheme = useAppSelector(state => state.themes.activeTheme);
+    const currentNote = useAppSelector(state => state.notes.activeNote);
+    const notesStatus = useAppSelector(state => state.notes.status);
     const [state, setState] = React.useState(() =>
         html
             ? EditorState.createWithContent(HTMLtoState(html), decorator)
@@ -54,7 +57,11 @@ export const useEditor = (html?: string): EditorApi => {
         if (currentNote?.text) {
             // const content = ContentState.createFromText(currentNote.text);
             // const editorState = EditorState.createWithContent(content, decorator);
-            const editorState = EditorState.createWithContent(HTMLtoState(currentNote.text), decorator);
+
+            const editorState = notesStatus === 'creating'
+                ? EditorState.createEmpty()
+                : EditorState.createWithContent(HTMLtoState(currentNote.text), decorator)
+
             setState(editorState);
         }
     }, [currentNote])
@@ -143,9 +150,13 @@ export const useEditor = (html?: string): EditorApi => {
     );
 
     const save = React.useCallback(
-        () => {
-            dispatch(patchNote({...currentNote, text: toHtml()}))
-            // console.log(state.getCurrentContent().getAllEntities())
+        (nowNote: INote) => {
+            console.log('{ ...nowNote, text: toHtml() }', { ...nowNote, text: toHtml(), theme: currentTheme.slug })
+            if (notesStatus === 'creating') {
+                dispatch(createNote({ ...nowNote, text: toHtml(), theme: currentTheme.slug }))
+            } else {
+                dispatch(patchNote({ ...nowNote, text: toHtml() }))
+            }
         }, [state]
     );
 

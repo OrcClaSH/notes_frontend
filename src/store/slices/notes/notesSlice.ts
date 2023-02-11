@@ -6,6 +6,7 @@ const initialState: INotesState = {
     notes: [],
     activeNote: {} as INote,
     isLoading: false,
+    status: 'read',
     error: '',
 };
 
@@ -35,6 +36,19 @@ export const patchNote = createAsyncThunk<INote, INote, { rejectValue: string }>
     }
 );
 
+export const createNote = createAsyncThunk<INote, INote, { rejectValue: string }>(
+    'notes/createNote',
+    async function(newNote, thunkAPI) {
+        const response = await WithAuthService.createNote(newNote);
+
+        if (response.status !== 201) {
+            return thunkAPI.rejectWithValue('Проблема при создании новой Note');
+        }
+
+        return response.data
+    }
+);
+
 export const notesSlice = createSlice({
     name: 'notes',
     initialState,
@@ -44,7 +58,13 @@ export const notesSlice = createSlice({
         },
         setTextActiveNote(state, action: PayloadAction<string>) {
             state.activeNote.text = action.payload;
-        }
+        },
+        setNotesStatus(state, action: PayloadAction<INotesState['status']>) {
+            state.status = action.payload
+            if (action.payload === 'creating') {
+                state.activeNote = {} as INote;
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -70,6 +90,7 @@ export const notesSlice = createSlice({
                 state.isLoading = false;
                 if (foundNote?.text) {
                     foundNote.text = action.payload.text;
+                    foundNote.title = action.payload.title
                     state.activeNote = action.payload;
                 }
                 state.error = '';
@@ -78,8 +99,22 @@ export const notesSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.error.message || 'patch note error';
             })
+
+            .addCase(createNote.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(createNote.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.notes.push(action.payload);
+                state.activeNote = action.payload;
+                state.error = '';
+            })
+            .addCase(createNote.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload || 'create note error';
+            })
     }
 });
 
 export default notesSlice.reducer;
-export const { setActiveNote, setTextActiveNote } = notesSlice.actions;
+export const { setActiveNote, setTextActiveNote, setNotesStatus } = notesSlice.actions;

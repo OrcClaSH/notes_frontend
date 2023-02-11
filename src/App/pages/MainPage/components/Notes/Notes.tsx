@@ -1,14 +1,13 @@
 import { FC, useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { fetchNotes, setActiveNote } from "@/store/slices/notes/notesSlice";
+import { fetchNotes, setActiveNote, setNotesStatus } from "@/store/slices/notes/notesSlice";
 import { selectorNotesWithActiveTheme } from "@/store/selectors";
 import AddNewBtn from "../AddNewBtn";
 import Search from "@/components/Search";
 import Note from "../Note/Note";
 
 import st from './Notes.module.scss';
-
 
 const Notes: FC = () => {
     const dispatch = useAppDispatch();
@@ -56,7 +55,7 @@ const Notes: FC = () => {
                 </div>
                 <AddNewBtn
                     buttonText="Add new note"
-                    onClick={() => console.log('click')}
+                    onClick={() => dispatch(setNotesStatus('creating'))}
                 />
             </div>
         </section>

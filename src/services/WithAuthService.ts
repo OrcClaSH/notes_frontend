@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import $api from "../http";
-import { IAuthResponse } from '@/store/slices/user/types';
+import { IAuthResponse, IUser } from '@/store/slices/user/types';
 import { ITheme } from '@/store/slices/themes/types';
 import { INote } from '@/store/slices/notes/types';
 
@@ -14,6 +14,10 @@ export default class WithAuthService {
     static async login(username: string, password: string): Promise<AxiosResponse<IAuthResponse>> {
         return $api.post<IAuthResponse>('/jwt/create', { username, password });
     };
+
+    static async getUser(): Promise<AxiosResponse<IUser>> {
+        return $api.get<IUser>('/users/me', { withCredentials: true });
+    }
 
     static async logout(): Promise<void> {
         return $api.post('./logout');
@@ -47,6 +51,10 @@ export default class WithAuthService {
     static async patchNote(activeNote: INote): Promise<AxiosResponse<INote>> {
         const { id, theme, title, text } = activeNote
         return $api.patch<INote>(`/notes/${id}/`, { theme, title, text }, { withCredentials: true });
+    }
+
+    static async createNote(newNote: INote): Promise<AxiosResponse<INote>> {
+        return $api.post<INote>('/notes/', newNote, { withCredentials: true });
     }
 
 };
