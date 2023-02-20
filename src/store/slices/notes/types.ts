@@ -13,6 +13,6 @@ export interface INotesState {
     notes: INote[];
     activeNote: INote;
     isLoading: Boolean;
-    status: 'redaction' | 'creating' | 'read';
+    status: 'edit' | 'create' | 'read';
     error: string;
 };

@@ -22,7 +22,7 @@ const NoteRedactor: FC = () => {
     }
 
     useEffect(() => {
-        if (activeNote?.title && notesStatus === 'redaction') {
+        if (activeNote?.title && notesStatus === 'edit') {
             setNoteTitle(activeNote.title)
         }
     }, [activeNote]);

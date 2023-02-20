@@ -1,0 +1,72 @@
+@import '@/assets/scss/variables';
+
+.signin {
+    display: flex;
+    justify-content: end;
+
+    &-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        flex-basis: 330px;
+
+        &__input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        &__button {
+            width: fit-content;
+            font-family: inherit;
+            padding: 10px 45px;
+            font-weight: 400;
+            font-size: 24px;
+            line-height: 28px;
+            color: $color-active-text;
+            background-color: $background;
+            border: 1px solid $color-passive-text;
+            border-radius: 4px;
+            align-self: flex-end;
+            box-shadow: $shadow-button;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        button:hover {
+            color: $color-active-text;
+            background-color: black;
+            box-shadow: inset $shadow-panel, $shadow-panel;
+        }
+
+        button:active {
+            box-shadow: inset $shadow-panel;
+        }
+    }
+
+    &-form__input {
+        padding: 15px 10px 4px;
+        width: 100%;
+        color: $color-active-text;
+        background-color: $background;
+        border: 1px solid $color-passive-text;
+        border-radius: 4px;
+        font-size: 24px;
+        line-height: 28px;
+    }
+
+    &-form__input-placeholder {
+        position: absolute;
+        top: 17px;
+        left: 10px;
+        opacity: .8;
+        pointer-events: none;
+        transition: .5s;
+    }
+
+    &-form__input:focus~&-form__input-placeholder,
+    &-form__input:valid~&-form__input-placeholder {
+        transform: translateY(-1.2em);
+        font-size: .8em;
+        opacity: .4;
+    }
+}

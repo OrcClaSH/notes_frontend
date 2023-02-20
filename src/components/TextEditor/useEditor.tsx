@@ -58,7 +58,7 @@ export const useEditor = (html?: string): EditorApi => {
             // const content = ContentState.createFromText(currentNote.text);
             // const editorState = EditorState.createWithContent(content, decorator);
 
-            const editorState = notesStatus === 'creating'
+            const editorState = notesStatus === 'create'
                 ? EditorState.createEmpty()
                 : EditorState.createWithContent(HTMLtoState(currentNote.text), decorator)
 
@@ -152,7 +152,7 @@ export const useEditor = (html?: string): EditorApi => {
     const save = React.useCallback(
         (nowNote: INote) => {
             console.log('{ ...nowNote, text: toHtml() }', { ...nowNote, text: toHtml(), theme: currentTheme.slug })
-            if (notesStatus === 'creating') {
+            if (notesStatus === 'create') {
                 dispatch(createNote({ ...nowNote, text: toHtml(), theme: currentTheme.slug }))
             } else {
                 dispatch(patchNote({ ...nowNote, text: toHtml() }))

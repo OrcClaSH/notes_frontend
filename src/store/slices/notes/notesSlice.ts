@@ -61,7 +61,7 @@ export const notesSlice = createSlice({
         },
         setNotesStatus(state, action: PayloadAction<INotesState['status']>) {
             state.status = action.payload
-            if (action.payload === 'creating') {
+            if (action.payload === 'create') {
                 state.activeNote = {} as INote;
             }
         },

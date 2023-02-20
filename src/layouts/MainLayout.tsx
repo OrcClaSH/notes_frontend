@@ -4,11 +4,9 @@ import { Outlet } from "react-router-dom";
 const MainLayout = () => {
 
     return (
-        <main className="layout-container">
-            <div className='wrapper'>
-                <Outlet />
-            </div>
-        </main>
+        <div className='wrapper'>
+            <Outlet />
+        </div>
     )
 }
 

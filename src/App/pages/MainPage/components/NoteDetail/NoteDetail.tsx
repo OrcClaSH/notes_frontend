@@ -78,7 +78,7 @@ const NoteDetail: FC = () => {
                     </h2>
                     {activeNote && <DotsActions
                         actions={[
-                            { text: 'Edit', action: () => dispatch(setNotesStatus('redaction')) },
+                            { text: 'Edit', action: () => dispatch(setNotesStatus('edit')) },
                         ]}
                     />}
                 </div>

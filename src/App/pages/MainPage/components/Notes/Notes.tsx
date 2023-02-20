@@ -55,7 +55,7 @@ const Notes: FC = () => {
                 </div>
                 <AddNewBtn
                     buttonText="Add new note"
-                    onClick={() => dispatch(setNotesStatus('creating'))}
+                    onClick={() => dispatch(setNotesStatus('create'))}
                 />
             </div>
         </section>
