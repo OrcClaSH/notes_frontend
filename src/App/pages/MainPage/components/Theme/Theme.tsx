@@ -5,7 +5,7 @@ import cn from 'classnames';
 import st from './Theme.module.scss';
 
 import { useAppDispatch } from "@/store/store";
-import { deleteTheme, patchTheme, setActiveTheme, setRedactionTheme } from "@/store/slices/themes/themesSlice";
+import { deleteTheme, setActiveTheme, setRedactionTheme } from "@/store/slices/themes/themesSlice";
 import { ITheme } from "@/store/slices/themes/types";
 import DotsActions from "@/components/DotsActions";
 

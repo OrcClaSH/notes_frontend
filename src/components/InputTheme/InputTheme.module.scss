@@ -5,7 +5,8 @@
     width: 90%;
     bottom: 40%;
     border-radius: 4px;
-    background-color: rgba(0, 0, 0, .7);
+    // background-color: rgba(0, 0, 0, .7);
+    background-color: $color-background-element;
     box-shadow: $shadow-panel;
     padding: 5px;
     z-index: 1;

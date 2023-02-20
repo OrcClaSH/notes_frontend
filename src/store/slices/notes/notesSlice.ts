@@ -39,6 +39,10 @@ export const patchNote = createAsyncThunk<INote, INote, { rejectValue: string }>
 export const createNote = createAsyncThunk<INote, INote, { rejectValue: string }>(
     'notes/createNote',
     async function(newNote, thunkAPI) {
+        if (!newNote.title) {
+            return thunkAPI.rejectWithValue('Необходимо указать наименование Note');
+        }
+
         const response = await WithAuthService.createNote(newNote);
 
         if (response.status !== 201) {

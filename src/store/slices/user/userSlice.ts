@@ -1,5 +1,4 @@
-import { AnyAction, createAsyncThunk, createSlice, PayloadAction, current } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import { createAsyncThunk, createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 
 import { IUser, IAuthResponse, IUserState } from './types';
 import WithAuthService from '@/services/WithAuthService';
@@ -60,7 +59,13 @@ export const checkAuth = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: s
 export const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        logout(state, action: PayloadAction) {
+            state.isAuth = false;
+            state.user = {} as IUser;
+            localStorage.removeItem('token')
+        }
+    },
     extraReducers: (builder) => {
         builder
 
@@ -73,9 +78,6 @@ export const userSlice = createSlice({
                 state.error = '';
                 state.user = action.payload.user;
                 localStorage.setItem('token', action.payload.access);
-                // console.log('action.payload', action.payload)
-                // console.log('user state', current(state))
-                // console.log('localStorage', localStorage.getItem('token'))
             })
             .addCase(login. rejected, (state, action) => {
                 state.isLoading = false;
@@ -90,7 +92,6 @@ export const userSlice = createSlice({
                 state.isAuth = true;
                 state.error = '';
                 // state.user = action.payload.user;
-                // console.log(action.payload.user)
                 localStorage.setItem('token', action.payload.access);
             })
             .addCase(checkAuth.rejected, (state, action) => {
@@ -115,3 +116,5 @@ export const userSlice = createSlice({
 })
 
 export default userSlice.reducer;
+
+export const { logout } = userSlice.actions;

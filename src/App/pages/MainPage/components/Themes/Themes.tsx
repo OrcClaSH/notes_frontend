@@ -1,16 +1,20 @@
 import { FC, useEffect, useState, useRef } from "react";
 
+import Theme from "../Theme";
+import Search from "@/components/Search";
+import AddNewBtn from "../AddNewBtn/AddNewBtn";
+import InputTheme from "@/components/InputTheme";
+import PopupActions from "@/components/PopupActions";
+import { logout } from "@/store/slices/user/userSlice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { ReactComponent as ArrowImg } from '@/assets/img/arrow.svg';
+import { setRedactionTheme, fetchThemes, setActiveTheme } from "@/store/slices/themes/themesSlice";
+
 import st from './Themes.module.scss';
 
-import { ReactComponent as ArrowImg } from '@/assets/img/arrow.svg';
-import Search from "@/components/Search";
-import Theme from "../Theme";
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { setRedactionTheme, fetchThemes, setActiveTheme } from "@/store/slices/themes/themesSlice";
-import InputTheme from "@/components/InputTheme";
-import AddNewBtn from "../AddNewBtn/AddNewBtn";
-
 const Themes: FC = () => {
+    const [showUserMenu, setShowUserMenu] = useState(false);
+    const iconWrapperRef = useRef<null | HTMLDivElement>(null)
     const isAuth = useAppSelector(state => state.user.isAuth)
     const userName = useAppSelector(state => state.user.user.username)
     const themes = useAppSelector(state => state.themes.themes);
@@ -45,7 +49,21 @@ const Themes: FC = () => {
                     <h2 className={st['themes__header-title']}>
                         {userName || 'UserName'}
                     </h2>
-                    <ArrowImg className={st['themes__header-icon']} />
+                    <div
+                        className={st['themes__header-icon--wrapper']}
+                        onClick={() => setShowUserMenu(prev => !prev)}
+                        ref={iconWrapperRef}
+                        >
+                        <ArrowImg className={st['themes__header-icon']} />
+                        <PopupActions
+                            isShow={showUserMenu}
+                            setShow={setShowUserMenu}
+                            wrapperRef={iconWrapperRef}
+                            actions={[
+                                { text: 'Logout', action: () => dispatch(logout()) }
+                            ]}
+                        />
+                    </div>
                 </div>
                 <Search placeholder="Search themes" />
                 <div className={st.themes__items}>
@@ -61,7 +79,7 @@ const Themes: FC = () => {
                 </div>
                 <AddNewBtn
                     buttonText={'Add new theme'}
-                    onClick={() => dispatch(setRedactionTheme({isRedaction: !isRedaction}))}
+                    onClick={() => dispatch(setRedactionTheme({ isRedaction: !isRedaction }))}
                 />
                 <InputTheme placeholder='Theme name' />
             </div>

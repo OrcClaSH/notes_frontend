@@ -29,6 +29,10 @@
             color: $color-active-text;
         }
 
+        &-icon--wrapper {
+            position: relative;
+        }
+
         &-icon {
             fill: $color-active-text;
             cursor: pointer;

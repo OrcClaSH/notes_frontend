@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useState, useRef } from "react";
 
 import st from './DotsActions.module.scss';
 
 import { ReactComponent as DotsImg } from '@/assets/img/dots.svg';
+import PopupActions from "../PopupActions";
 
 interface IDotsActionsProps {
     actions: {
@@ -12,24 +13,22 @@ interface IDotsActionsProps {
 };
 
 const DotsActions: FC<IDotsActionsProps> = ({ actions }) => {
+    const [showMenu, setShowMenu] = useState(false);
+    const menuWrapperRef = useRef<null | HTMLDivElement>(null);
 
     return (
-        <div className={st.dots}>
+        <div
+            className={st.dots}
+            onClick={() => setShowMenu(prev => !prev)}
+            ref={menuWrapperRef}
+        >
             <DotsImg className={st.dots__img} />
-            <div className={st.dots__actions}>
-                {!!actions.length && (
-                    <div className={st['dots__actions-items']}>
-                        {actions.map(item => (
-                            <span
-                                className={st['dots__actions-item']}
-                                key={item.text}
-                                onClick={() => item.action(true)}
-                            >
-                                {item.text}
-                            </span>))}
-                    </div>
-                )}
-            </div>
+            <PopupActions
+                isShow={showMenu}
+                setShow={setShowMenu}
+                actions={actions}
+                wrapperRef={menuWrapperRef}
+            />
         </div>
     )
 };

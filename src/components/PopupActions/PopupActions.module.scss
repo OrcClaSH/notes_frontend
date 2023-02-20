@@ -1,0 +1,48 @@
+@import '@/assets/scss/variables';
+
+.actions {
+    position: absolute;
+    min-width: 100px;
+    right: 8px;
+    border-radius: 4px;
+    background-color: $color-background-element;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0);
+    transform-origin: right top;
+    box-shadow: 0px 0px 7px 3px rgba(255, 255, 255, .3);
+    transition: .4s, opacity .4s;
+    z-index: 2;
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 5px;
+        text-align: center;
+        border-radius: 4px;
+        transition: all .2s;
+    }
+
+    &__item {
+        color: $color-passive-text;
+        width: 100%;
+        border-radius: 2px;
+        transition: all .2s;
+    }
+
+    &__item:hover {
+        color: $color-active-text;
+        background-color: rgba(255, 255, 255, .1);
+        box-shadow: 0px 0px 2px 4px rgba(255, 255, 255, .1);
+    }
+}
+
+.active {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+}
