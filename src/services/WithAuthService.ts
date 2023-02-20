@@ -44,6 +44,10 @@ export default class WithAuthService {
         return $api.delete<void>(`/themes/${id}`, { withCredentials: true });
     }
 
+    static async searchThemes(text: string): Promise<AxiosResponse<ITheme[]>> {
+        return $api.get<ITheme[]>(`/themes?search=${text}`, { withCredentials: true })
+    }
+
     static async fetchNotes(): Promise<AxiosResponse<INote[]>> {
         return $api.get<INote[]>('/notes', { withCredentials: true });
     }
@@ -55,6 +59,14 @@ export default class WithAuthService {
 
     static async createNote(newNote: INote): Promise<AxiosResponse<INote>> {
         return $api.post<INote>('/notes/', newNote, { withCredentials: true });
+    }
+
+    static async deleteNote(id: number): Promise<AxiosResponse<void>> {
+        return $api.delete<void>(`/notes/${id}`, { withCredentials: true });
+    }
+
+    static async searchNotes(text: string): Promise<AxiosResponse<INote[]>> {
+        return $api.get<INote[]>(`/notes?search=${text}`, { withCredentials: true })
     }
 
 };

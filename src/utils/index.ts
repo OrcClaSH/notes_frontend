@@ -5,4 +5,3 @@ export const createMarkup = (html: string) => {
         __html: DOMPurify.sanitize(html)
     }
 };
-

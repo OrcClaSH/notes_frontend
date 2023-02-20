@@ -8,7 +8,7 @@ import { createMarkup } from '@/utils';
 import st from './NoteTestDetail.module.scss';
 import 'highlight.js/styles/atom-one-dark-reasonable.css'
 import DotsActions from '@/components/DotsActions';
-import { setNotesStatus } from '@/store/slices/notes/notesSlice';
+import { deleteNote, setNotesStatus } from '@/store/slices/notes/notesSlice';
 
 interface INodeDetailProps {
     onClickEdit: React.Dispatch<React.SetStateAction<boolean>>;
@@ -79,6 +79,7 @@ const NoteDetail: FC = () => {
                     {activeNote && <DotsActions
                         actions={[
                             { text: 'Edit', action: () => dispatch(setNotesStatus('edit')) },
+                            { text: 'Delete', action: () => dispatch(deleteNote(activeNote.id))},
                         ]}
                     />}
                 </div>

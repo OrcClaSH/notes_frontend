@@ -8,7 +8,7 @@ import PopupActions from "@/components/PopupActions";
 import { logout } from "@/store/slices/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { ReactComponent as ArrowImg } from '@/assets/img/arrow.svg';
-import { setRedactionTheme, fetchThemes, setActiveTheme } from "@/store/slices/themes/themesSlice";
+import { setRedactionTheme, fetchThemes, setActiveTheme, searchThemes } from "@/store/slices/themes/themesSlice";
 
 import st from './Themes.module.scss';
 
@@ -20,6 +20,7 @@ const Themes: FC = () => {
     const themes = useAppSelector(state => state.themes.themes);
     const activeTheme = useAppSelector(state => state.themes.activeTheme);
     const isRedaction = useAppSelector(state => state.themes.isRedaction);
+    const [searchValue, setSearchValue] = useState('')
 
     const dispatch = useAppDispatch();
 
@@ -28,7 +29,7 @@ const Themes: FC = () => {
             return activeTheme.id === id;
         }
         return false;
-    }
+    };
 
     useEffect(() => {
         dispatch(fetchThemes(''))
@@ -41,6 +42,10 @@ const Themes: FC = () => {
             dispatch(setActiveTheme(activeTheme))
         };
     }, [themes]);
+
+    useEffect(() => {
+        dispatch(searchThemes(searchValue));
+    }, [searchValue]);
 
     return (
         <section className={st.themes}>
@@ -65,7 +70,11 @@ const Themes: FC = () => {
                         />
                     </div>
                 </div>
-                <Search placeholder="Search themes" />
+                <Search
+                    placeholder="Search themes"
+                    value={searchValue}
+                    setValue={setSearchValue}
+                />
                 <div className={st.themes__items}>
                     <div className={st['themes__items-wrapper']}>
                         {themes.map(theme => (

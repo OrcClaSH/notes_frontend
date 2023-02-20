@@ -35,7 +35,7 @@ export const createTheme = createAsyncThunk<ITheme, { title: string }, { rejectV
 
         return response.data
     }
-)
+);
 
 export const patchTheme = createAsyncThunk<ITheme, ITheme, { rejectValue: string }>(
     'themes/patchTheme',
@@ -48,7 +48,7 @@ export const patchTheme = createAsyncThunk<ITheme, ITheme, { rejectValue: string
 
         return response.data;
     }
-)
+);
 
 export const deleteTheme = createAsyncThunk<number, number, { rejectValue: string}>(
     'themes/deleteTheme',
@@ -61,7 +61,20 @@ export const deleteTheme = createAsyncThunk<number, number, { rejectValue: strin
 
         return id
     }
-)
+);
+
+export const searchThemes = createAsyncThunk<ITheme[], string, { rejectValue: string}>(
+    'themes/searchThemes',
+    async function(searchText, thunkAPI) {
+        const response = await WithAuthService.searchThemes(searchText);
+
+        if (response.status !== 200) {
+            return thunkAPI.rejectWithValue('Проблема при поиске темы')
+        }
+
+        return response.data;
+    }
+);
 
 export const themesSlice = createSlice({
     name: 'themes',
@@ -136,6 +149,19 @@ export const themesSlice = createSlice({
             .addCase(deleteTheme.rejected, (state, action) => {
                 state.isLoading = false
                 state.error = action.payload || 'delete theme error';
+            })
+
+            .addCase(searchThemes.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(searchThemes.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.themes = action.payload;
+                state.error = ''
+            })
+            .addCase(searchThemes.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload || 'search note error';
             })
 
     }

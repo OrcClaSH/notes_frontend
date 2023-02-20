@@ -1,11 +1,12 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState, useCallback } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { fetchNotes, setActiveNote, setNotesStatus } from "@/store/slices/notes/notesSlice";
+import { fetchNotes, searchNotes, setActiveNote, setNotesStatus } from "@/store/slices/notes/notesSlice";
 import { selectorNotesWithActiveTheme } from "@/store/selectors";
 import AddNewBtn from "../AddNewBtn";
 import Search from "@/components/Search";
 import Note from "../Note/Note";
+import debounce from "lodash.debounce";
 
 import st from './Notes.module.scss';
 
@@ -15,6 +16,7 @@ const Notes: FC = () => {
     const activeTheme = useAppSelector(state => state.themes.activeTheme)
     const activeNote = useAppSelector(state => state.notes.activeNote);
     const notes = useAppSelector(selectorNotesWithActiveTheme(activeTheme))
+    const [searchValue, setSearchValue] = useState('')
 
     const handleActiveNote = (id: number) => {
         if (activeNote) {
@@ -22,6 +24,13 @@ const Notes: FC = () => {
         }
         return false;
     };
+
+    const debounceSearch = useCallback(
+        debounce((searchText: string) => {
+            dispatch(searchNotes(searchText));
+        }, 500),
+        []
+    );
 
     useEffect(() => {
         dispatch(fetchNotes(''))
@@ -33,6 +42,10 @@ const Notes: FC = () => {
         dispatch(setActiveNote(activeNote))
     }, [activeTheme]);
 
+    useEffect(() => {
+        debounceSearch(searchValue);
+    }, [searchValue]);
+
     return (
         <section className={st.notes}>
             <div className={st.notes__wrapper}>
@@ -41,7 +54,11 @@ const Notes: FC = () => {
                         {activeTheme && activeTheme.title}
                     </h2>
                 </div>
-                <Search placeholder="Search notes" />
+                <Search
+                    placeholder="Search notes"
+                    value={searchValue}
+                    setValue={setSearchValue}
+                />
                 <div className={st.notes__items}>
                     <div className={st['notes__items-wrapper']}>
                         {notes.map(note => (

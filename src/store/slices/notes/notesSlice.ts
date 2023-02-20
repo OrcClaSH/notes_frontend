@@ -36,6 +36,19 @@ export const patchNote = createAsyncThunk<INote, INote, { rejectValue: string }>
     }
 );
 
+export const deleteNote = createAsyncThunk<number, number, { rejectValue: string}>(
+    'notes/deleteTheme',
+    async function(id, thunkAPI) {
+        const response = await WithAuthService.deleteNote(id)
+
+        if (response.status != 204) {
+            return thunkAPI.rejectWithValue('Проблемы при удалении Note');
+        }
+
+        return id
+    }
+);
+
 export const createNote = createAsyncThunk<INote, INote, { rejectValue: string }>(
     'notes/createNote',
     async function(newNote, thunkAPI) {
@@ -52,6 +65,19 @@ export const createNote = createAsyncThunk<INote, INote, { rejectValue: string }
         return response.data
     }
 );
+
+export const searchNotes = createAsyncThunk<INote[], string, { rejectValue: string}>(
+    'notes/searchNotes',
+    async function(searchText, thunkAPI) {
+        const response = await WithAuthService.searchNotes(searchText);
+
+        if (response.status !== 200) {
+            return thunkAPI.rejectWithValue('Проблема при поиске Note')
+        }
+
+        return response.data;
+    }
+)
 
 export const notesSlice = createSlice({
     name: 'notes',
@@ -117,8 +143,34 @@ export const notesSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload || 'create note error';
             })
+
+            .addCase(deleteNote.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deleteNote.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.notes = state.notes.filter(note => note.id !== action.payload);
+            })
+            .addCase(deleteNote.rejected, (state, action) => {
+                state.isLoading = false
+                state.error = action.payload || 'delete note error';
+            })
+
+            .addCase(searchNotes.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(searchNotes.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.notes = action.payload;
+                state.error = ''
+            })
+            .addCase(searchNotes.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload || 'search note error';
+            })
     }
 });
 
 export default notesSlice.reducer;
+
 export const { setActiveNote, setTextActiveNote, setNotesStatus } = notesSlice.actions;
