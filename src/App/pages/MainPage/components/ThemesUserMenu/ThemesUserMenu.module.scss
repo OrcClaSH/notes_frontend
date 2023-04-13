@@ -1,0 +1,10 @@
+@import '@/assets/scss/variables';
+
+.user-menu {
+    position: relative;
+
+    &__icon {
+        fill: $color-active-text;
+        cursor: pointer;
+    }
+}

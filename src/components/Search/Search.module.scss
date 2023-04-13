@@ -24,6 +24,10 @@
         padding: 5px;
         color: inherit;
         transition: all .2s;
+
+        &:focus {
+            box-shadow: $shadow;
+        }
     }
 
     &__input:hover {
@@ -34,7 +38,4 @@
         color: $color-passive-text;
     }
 
-    &:active {
-        box-shadow: $shadow;
-    }
 }

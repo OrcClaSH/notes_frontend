@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 
 import Signin from '@/components/Signin';
+import Signup from '@/components/Signup';
 import { ReactComponent as DevnotesImg } from '@/assets/img/devnotes.svg';
 import { ReactComponent as CurvedArrowImg } from '@/assets/img/curved_arrow.svg';
 
@@ -11,7 +12,7 @@ const StartPage: FC = () => {
 
     return (
         <div className={st.sign}>
-            <div className={st['sign-side-logo']}>
+            <div className={st['sign-side-logo']} onClick={() => setSignStatus('')}>
                 <DevnotesImg className={st['sign-side-logo--text']} />
                 <div className={st['sign-side-logo--dots']}>
                 </div>
@@ -34,7 +35,8 @@ const StartPage: FC = () => {
                         Sign up
                     </button>
                 </div>}
-                {signStatus === 'signin' && <Signin />}
+                {signStatus === 'signin' && <Signin setSignStatus={setSignStatus} />}
+                {signStatus === 'signup' && <Signup setSignStatus={setSignStatus} />}
                 <div className={st['sign__content-bottom']}>
                     <p>Follow us</p>
                     <CurvedArrowImg className={st['sign__content-bottom--img']} />

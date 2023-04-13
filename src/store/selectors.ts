@@ -8,3 +8,9 @@ export const selectorNotesWithActiveTheme = (activeTheme: ITheme) => createSelec
     [selectNotes],
     notes => notes.filter(note => note.theme === activeTheme?.title?.toLowerCase())
 );
+
+// const selectActiveTheme = (state: TRootState) => state.themes.activeTheme
+// export const selectorActiveTheme = () => createSelector(
+//     [selectActiveTheme],
+//     activeTheme => activeTheme
+// )

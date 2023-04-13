@@ -1,22 +1,22 @@
 import { FC } from 'react';
 import Highlight from 'react-highlight';
 
+import { createMarkup } from '@/utils';
+import DotsActions from '@/components/DotsActions';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { ReactComponent as CopyImg } from '@/assets/img/copy.svg';
-import { createMarkup } from '@/utils';
-
-import st from './NoteTestDetail.module.scss';
-import 'highlight.js/styles/atom-one-dark-reasonable.css'
-import DotsActions from '@/components/DotsActions';
 import { deleteNote, setNotesStatus } from '@/store/slices/notes/notesSlice';
+import { useClipboard } from 'use-clipboard-copy';
+import { ToastContainer, toast } from 'react-toastify';
 
-interface INodeDetailProps {
-    onClickEdit: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import 'highlight.js/styles/atom-one-dark-reasonable.css'
+import 'react-toastify/dist/ReactToastify.css';
+import st from './NoteTestDetail.module.scss';
 
 const NoteDetail: FC = () => {
     const activeNote = useAppSelector(state => state.notes.activeNote);
     const dispatch = useAppDispatch()
+    const clipboard = useClipboard();
 
     const parseNoteText = () => {
         if (!activeNote || !activeNote.text) return null;
@@ -45,6 +45,15 @@ const NoteDetail: FC = () => {
                 .replaceAll('<br/>', '\n') // TODO replace all replace
             const text = parsedText[1].trim();
 
+            const copyToClipboard = (text: string) => {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text)
+                } else {
+                    clipboard.copy(text)
+                }
+                toast('Copied')
+            };
+
             return (
                 <div
                     key={`${index}b`}
@@ -56,7 +65,11 @@ const NoteDetail: FC = () => {
                         >
                             {code}
                         </Highlight>
-                        <CopyImg className={st['note-detail__icon']} key={`${index}a`} />
+                        <CopyImg
+                            className={st['note-detail__icon']}
+                            key={`${index}a`}
+                            onClick={() => copyToClipboard(code)}
+                        />
                     </div>
                     <div
                         className={st["note-detail__text"]}
@@ -74,16 +87,28 @@ const NoteDetail: FC = () => {
             <div className={st['note-detail__wrapper']}>
                 <div className={st['note-detail__header']}>
                     <h2 className={st['note-detail__header-title']}>
-                        {activeNote ? activeNote.title : "Note not selected"}
+                        {activeNote?.title ? activeNote.title : "Note not selected"}
                     </h2>
-                    {activeNote && <DotsActions
+                    {activeNote?.title && <DotsActions
                         actions={[
                             { text: 'Edit', action: () => dispatch(setNotesStatus('edit')) },
-                            { text: 'Delete', action: () => dispatch(deleteNote(activeNote.id))},
+                            { text: 'Delete', action: () => dispatch(deleteNote(activeNote.id)) },
                         ]}
                     />}
                 </div>
                 {parseNoteText()}
+                <ToastContainer
+                    position="top-right"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="dark"
+                />
             </div>
         </div>
     );

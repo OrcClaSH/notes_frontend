@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 
 import cn from 'classnames';
 
@@ -9,6 +9,8 @@ import { deleteTheme, setActiveTheme, setRedactionTheme } from "@/store/slices/t
 import { ITheme } from "@/store/slices/themes/types";
 import DotsActions from "@/components/DotsActions";
 
+// import { useWhyDidYouUpdate } from 'ahooks';
+
 interface IThemeProps {
     theme: ITheme
     isActive: boolean;
@@ -16,7 +18,7 @@ interface IThemeProps {
 
 const Theme: FC<IThemeProps> = ({ theme, isActive }) => {
     const dispatch = useAppDispatch();
-    const themeCN = cn(
+    const classesTheme = cn(
         st.theme,
         isActive ? st.active : '',
     );
@@ -25,9 +27,13 @@ const Theme: FC<IThemeProps> = ({ theme, isActive }) => {
         dispatch(setRedactionTheme({ isRedaction: true, theme }));
     };
 
+    const handleDeleteTheme = () => {
+        dispatch(deleteTheme(theme.id))
+    };
+
     return (
         <div
-            className={themeCN}
+            className={classesTheme}
             onClick={() => dispatch(setActiveTheme(theme))}
         >
             <h2 className={st.theme__name}>{theme.title}</h2>
@@ -35,10 +41,11 @@ const Theme: FC<IThemeProps> = ({ theme, isActive }) => {
             <DotsActions
                 actions={[
                     { text: 'Edit', action: handleEditTheme },
-                    { text: 'Delete', action: () => dispatch(deleteTheme(theme.id)) }
-                ]} />
+                    { text: 'Delete', action: handleDeleteTheme }
+                ]}
+            />
         </div>
     )
 };
 
-export default Theme;
+export default memo(Theme);

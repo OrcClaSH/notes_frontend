@@ -25,8 +25,21 @@ export const login = createAsyncThunk<IAuthResponse, IArgs, {rejectValue: string
             // return response.data;
             return {...response.data, user: {username, id: 3}} //! only test
         } catch (error: any) {
-            console.error('[login AsyncThunk]', error)
+            console.error('[login AsyncThunk]', error) // TODO remove
             return rejectWithValue(error?.response?.data?.message || `Проблемы с получением данных пользователя`)
+        }
+    }
+);
+
+export const registration = createAsyncThunk<IAuthResponse, IArgs, {rejectValue: string}>(
+    'user/registration',
+    async function (args, { rejectWithValue }) {
+        const {username, password} = args;
+        try {
+            const response = await WithAuthService.registration(username, password);
+            return response.data
+        } catch (error: any) {
+            return rejectWithValue(error?.response?.data?.message || 'Проблемы при регистрации пользователя')
         }
     }
 );
@@ -111,6 +124,23 @@ export const userSlice = createSlice({
             .addCase(getUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload || 'get user data error'
+            })
+
+            .addCase(registration.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(registration.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isAuth = true; //TODO temp test
+                state.error = '';
+                console.log('action', action)
+                state.user = {...action.payload.user};
+                // localStorage.setItem('token', action.payload.access);
+            })
+            .addCase(registration. rejected, (state, action) => {
+                console.log('rejected action', action)
+                state.isLoading = false;
+                state.error = action.payload || 'logging error'
             })
     }
 })

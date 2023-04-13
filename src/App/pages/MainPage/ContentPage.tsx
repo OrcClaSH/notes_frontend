@@ -9,12 +9,10 @@ import { getUser } from '@/store/slices/user/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import st from './ContentPage.module.scss';
-import Loader from '@/components/Loader';
 
 const ContentPage: FC = () => {
     const dispatch = useAppDispatch();
     const isAuth = useAppSelector(state => state.user.isAuth);
-    const isLoading = (useAppSelector(state => state.user.isLoading))
     const notesStatus = useAppSelector(state => state.notes.status);
 
     useEffect(() => {
@@ -25,14 +23,6 @@ const ContentPage: FC = () => {
         edit: <NoteRedactor />,
         create: <NoteRedactor />,
         read: <NoteDetail />,
-    };
-
-    if (isLoading) { //TODO
-        return (
-            <main className={st.content}>
-                <Loader />
-            </main>
-        )
     };
 
     return (

@@ -1,7 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import { IAuthResponse } from '@/store/slices/user/types';
-
 export const API_URL = import.meta.env.VITE_API_URL || 'http://clt.its:8000/api/v1';
 
 const $api = axios.create({
@@ -10,8 +8,9 @@ const $api = axios.create({
 });
 
 $api.interceptors.request.use((config) => {
-    if (config.headers) {
-        config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    const token = localStorage.getItem('token')
+    if (config.headers && token) {
+        config.headers.Authorization = `Bearer ${token}`
     }
     return config;
 });

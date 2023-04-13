@@ -51,7 +51,8 @@ const Notes: FC = () => {
             <div className={st.notes__wrapper}>
                 <div className={st.notes__header}>
                     <h2 className={st['notes__header-title']}>
-                        {activeTheme && activeTheme.title}
+                        {/* {activeTheme && activeTheme.title} */}
+                        {activeTheme.title ?? 'choice theme'}
                     </h2>
                 </div>
                 <Search

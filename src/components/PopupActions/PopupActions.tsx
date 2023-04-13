@@ -19,7 +19,7 @@ const PopupActions: FC<IPopupActionsProps> = ({ actions, isShow, setShow, wrappe
     let classesActions = cn(
         st.actions,
         isShow ? st.active : ''
-    )
+    );
 
     useEffect(() => {
         const handleDocumentClick = (e: MouseEvent) => {
@@ -29,7 +29,6 @@ const PopupActions: FC<IPopupActionsProps> = ({ actions, isShow, setShow, wrappe
                 setShow(false)
             };
         };
-
         document.addEventListener('click', handleDocumentClick);
         return () => document.removeEventListener('click', handleDocumentClick);
     }, [popupRef])

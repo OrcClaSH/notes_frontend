@@ -1,14 +1,14 @@
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import $api from "../http";
-import { IAuthResponse, IUser } from '@/store/slices/user/types';
-import { ITheme } from '@/store/slices/themes/types';
 import { INote } from '@/store/slices/notes/types';
+import { ITheme } from '@/store/slices/themes/types';
+import { IAuthResponse, IUser } from '@/store/slices/user/types';
 
 export default class WithAuthService {
 
     static async registration(username: string, password: string): Promise<AxiosResponse<IAuthResponse>> {
-        return $api.post<IAuthResponse>('/users', { username, password });
+        return $api.post<IAuthResponse>('/users/', { username, password });
     };
 
     static async login(username: string, password: string): Promise<AxiosResponse<IAuthResponse>> {
