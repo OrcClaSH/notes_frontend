@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 import $api from "../http";
 import { INote } from '@/store/slices/notes/types';

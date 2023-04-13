@@ -16,7 +16,7 @@ const ContentPage: FC = () => {
     const notesStatus = useAppSelector(state => state.notes.status);
 
     useEffect(() => {
-        dispatch(getUser(''))
+        dispatch(getUser())
     }, []);
 
     const elementsBasedOnStatus = {

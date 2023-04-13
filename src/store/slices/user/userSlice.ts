@@ -15,15 +15,17 @@ const initialState: IUserState = {
     error: '',
 };
 
-// TODO ..api/v1/users/me - getting user data not working
-export const login = createAsyncThunk<IAuthResponse, IArgs, {rejectValue: string}>(
+export const login = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: string }>(
     'user/login',
     async function (args, { rejectWithValue }) {
-        const {username, password} = args;
+        const { username, password } = args;
         try {
-            const response = await WithAuthService.login(username, password);
-            // return response.data;
-            return {...response.data, user: {username, id: 3}} //! only test
+            const responseTokens = await WithAuthService.login(username, password);
+
+            localStorage.setItem('token', responseTokens.data.access)
+            const responseUser = await WithAuthService.getUser()
+
+            return { ...responseTokens.data, user: responseUser.data }
         } catch (error: any) {
             console.error('[login AsyncThunk]', error) // TODO remove
             return rejectWithValue(error?.response?.data?.message || `Проблемы с получением данных пользователя`)
@@ -31,10 +33,10 @@ export const login = createAsyncThunk<IAuthResponse, IArgs, {rejectValue: string
     }
 );
 
-export const registration = createAsyncThunk<IAuthResponse, IArgs, {rejectValue: string}>(
+export const registration = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: string }>(
     'user/registration',
     async function (args, { rejectWithValue }) {
-        const {username, password} = args;
+        const { username, password } = args;
         try {
             const response = await WithAuthService.registration(username, password);
             return response.data
@@ -44,7 +46,7 @@ export const registration = createAsyncThunk<IAuthResponse, IArgs, {rejectValue:
     }
 );
 
-export const getUser = createAsyncThunk<IUser, any, {rejectValue: string}>(
+export const getUser = createAsyncThunk<IUser, void, { rejectValue: string }>(
     'user/getUser',
     async function (_, thunkAPI) {
         const response = await WithAuthService.getUser();
@@ -57,9 +59,9 @@ export const getUser = createAsyncThunk<IUser, any, {rejectValue: string}>(
     }
 );
 
-export const checkAuth = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: string}>(
+export const checkAuth = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: string }>(
     'user/checkAuth',
-    async function( _, { rejectWithValue }) {
+    async function (_, { rejectWithValue }) {
         const response = await WithAuthService.refresh();
 
         if (response.status !== 200) {
@@ -90,9 +92,9 @@ export const userSlice = createSlice({
                 state.isAuth = true;
                 state.error = '';
                 state.user = action.payload.user;
-                localStorage.setItem('token', action.payload.access);
+                // localStorage.setItem('token', action.payload.access);
             })
-            .addCase(login. rejected, (state, action) => {
+            .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload || 'logging error'
             })
@@ -134,10 +136,10 @@ export const userSlice = createSlice({
                 state.isAuth = true; //TODO temp test
                 state.error = '';
                 console.log('action', action)
-                state.user = {...action.payload.user};
+                state.user = { ...action.payload.user };
                 // localStorage.setItem('token', action.payload.access);
             })
-            .addCase(registration. rejected, (state, action) => {
+            .addCase(registration.rejected, (state, action) => {
                 console.log('rejected action', action)
                 state.isLoading = false;
                 state.error = action.payload || 'logging error'
