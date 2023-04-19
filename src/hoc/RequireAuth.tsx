@@ -1,13 +1,13 @@
-import { useAppSelector } from "@/store/store";
 import { FC, PropsWithChildren } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 
+import { useAuth } from "@/hooks/useAuth";
+
 const RequireAuth: FC<PropsWithChildren> = ({ children }) => {
     const location = useLocation();
-    const isAuth = useAppSelector(state => state.user.isAuth);
-    // const isAuth = true;
+    const {isAuth, isRendered} = useAuth();
 
-    if (!isAuth) {
+    if (!isAuth && isRendered) {
         return <Navigate to='/' state={{ from: location }} />
     }
 
@@ -16,7 +16,6 @@ const RequireAuth: FC<PropsWithChildren> = ({ children }) => {
             {children}
         </>
     )
-
 }
 
 export { RequireAuth }

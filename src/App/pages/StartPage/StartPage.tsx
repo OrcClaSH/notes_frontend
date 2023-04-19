@@ -1,28 +1,14 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 
 import Signin from '@/components/Signin';
 import Signup from '@/components/Signup';
-import { getUser } from '@/store/slices/user/userSlice';
-import { useAppDispatch, useAppSelector } from '@/store/store';
 import { ReactComponent as DevnotesImg } from '@/assets/img/devnotes.svg';
 import { ReactComponent as CurvedArrowImg } from '@/assets/img/curved_arrow.svg';
 
 import st from './StartPage.module.scss';
-import { useNavigate } from 'react-router-dom';
 
 const StartPage: FC = () => {
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate()
     const [signStatus, setSignStatus] = useState('');
-    const isAuth = useAppSelector(state => state.user.isAuth);
-
-    useEffect(() => {
-        dispatch(getUser())
-    }, []);
-
-    useEffect(() => {
-        if (isAuth) navigate('/notes')
-    }, [isAuth])
 
     return (
         <div className={st.sign}>
