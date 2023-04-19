@@ -8,6 +8,7 @@ import { login } from '@/store/slices/user/userSlice';
 import { formSigninSchema } from '@/utils/validations';
 
 import st from './Signin.module.scss';
+import { useLocation } from 'react-router-dom';
 
 interface ISigninProps {
     setSignStatus: React.Dispatch<React.SetStateAction<string>>;
@@ -16,6 +17,10 @@ interface ISigninProps {
 const Signin: FC<ISigninProps> = ({ setSignStatus }) => {
     const isAuth = useAppSelector(store => store.user.isAuth)
     const dispatch = useAppDispatch();
+
+    const location = useLocation()
+    const fromPage = location.state?.from?.pathname || '/'
+    console.log('fromPage', fromPage)
 
     const onSubmit: SubmitHandler<TFormSigninSchema> = (data) => {
         dispatch(login(data))

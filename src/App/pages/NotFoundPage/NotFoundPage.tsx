@@ -2,7 +2,7 @@ import { FC } from "react";
 
 const NotFoundPage = () => {
     return (
-        <div>
+        <div style={{color: 'white'}}>
             NotFoundPage..
         </div>
     )
