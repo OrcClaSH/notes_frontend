@@ -13,6 +13,7 @@ const initialState: IUserState = {
     isAuth: false,
     isLoading: false,
     error: '',
+    signStatus: ''
 };
 
 export const login = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: string }>(
@@ -33,7 +34,7 @@ export const login = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: strin
     }
 );
 
-export const registration = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: string }>(
+export const registration = createAsyncThunk<IUser, IArgs, { rejectValue: string }>(
     'user/registration',
     async function (args, { rejectWithValue }) {
         const { username, password } = args;
@@ -79,6 +80,9 @@ export const userSlice = createSlice({
             state.isAuth = false;
             state.user = {} as IUser;
             localStorage.removeItem('token')
+        },
+        setSignStatus(state, action: PayloadAction<IUserState['signStatus']>) {
+            state.signStatus = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -92,7 +96,6 @@ export const userSlice = createSlice({
                 state.isAuth = true;
                 state.error = '';
                 state.user = action.payload.user;
-                // localStorage.setItem('token', action.payload.access);
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
@@ -133,11 +136,8 @@ export const userSlice = createSlice({
             })
             .addCase(registration.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isAuth = true; //TODO temp test
                 state.error = '';
-                console.log('action', action)
-                state.user = { ...action.payload.user };
-                // localStorage.setItem('token', action.payload.access);
+                state.user = { ...action.payload };
             })
             .addCase(registration.rejected, (state, action) => {
                 console.log('rejected action', action)
@@ -149,4 +149,4 @@ export const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const { logout } = userSlice.actions;
+export const { logout, setSignStatus } = userSlice.actions;

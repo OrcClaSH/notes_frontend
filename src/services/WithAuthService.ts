@@ -7,8 +7,8 @@ import { IAuthResponse, IUser } from '@/store/slices/user/types';
 
 export default class WithAuthService {
 
-    static async registration(username: string, password: string): Promise<AxiosResponse<IAuthResponse>> {
-        return $api.post<IAuthResponse>('/users/', { username, password });
+    static async registration(username: string, password: string): Promise<AxiosResponse<IUser>> {
+        return $api.post<IUser>('/users/', { username, password });
     };
 
     static async login(username: string, password: string): Promise<AxiosResponse<IAuthResponse>> {

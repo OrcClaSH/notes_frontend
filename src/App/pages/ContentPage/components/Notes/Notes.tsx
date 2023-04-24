@@ -1,12 +1,12 @@
 import { FC, useEffect, useState, useCallback } from "react";
+import debounce from "lodash.debounce";
 
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { fetchNotes, searchNotes, setActiveNote, setNotesStatus } from "@/store/slices/notes/notesSlice";
-import { selectorNotesWithActiveTheme } from "@/store/selectors";
+import Note from "../Note/Note";
 import AddNewBtn from "../AddNewBtn";
 import Search from "@/components/Search";
-import Note from "../Note/Note";
-import debounce from "lodash.debounce";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { selectorNotesWithActiveTheme } from "@/store/selectors";
+import { fetchNotes, searchNotes, setActiveNote, setNotesStatus } from "@/store/slices/notes/notesSlice";
 
 import st from './Notes.module.scss';
 
@@ -51,7 +51,6 @@ const Notes: FC = () => {
             <div className={st.notes__wrapper}>
                 <div className={st.notes__header}>
                     <h2 className={st['notes__header-title']}>
-                        {/* {activeTheme && activeTheme.title} */}
                         {activeTheme.title ?? 'choice theme'}
                     </h2>
                 </div>

@@ -17,4 +17,5 @@ export interface IUserState {
     isAuth: Boolean;
     isLoading: Boolean;
     error: string;
+    signStatus: '' | 'signin' | 'signup';
 };

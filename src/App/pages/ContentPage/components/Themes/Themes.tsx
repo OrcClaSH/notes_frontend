@@ -36,8 +36,6 @@ const Themes: FC = () => {
         dispatch(searchThemes(searchValue));
     }, [searchValue]);
 
-    console.log('Themes render')
-
     return (
         <section className={st.themes}>
             <div className={st.themes__wrapper}>

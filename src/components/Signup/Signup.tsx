@@ -4,23 +4,18 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { TFormSignupSchema } from '@/utils/types';
-import { registration } from '@/store/slices/user/userSlice';
+import { registration, setSignStatus } from '@/store/slices/user/userSlice';
 import { formSignupSchema } from '@/utils/validations';
 
 import st from './Signup.module.scss';
 
-interface ISignupProps {
-    setSignStatus: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const Signup: FC<ISignupProps> = ({ setSignStatus }) => {
-    const isAuth = useAppSelector(store => store.user.isAuth)
+const Signup: FC = () => {
     const dispatch = useAppDispatch();
 
     const onSubmit: SubmitHandler<TFormSignupSchema> = (data) => {
         dispatch(registration(data))
         reset()
-        if (isAuth) setSignStatus('') // TODO checkAuth
+        dispatch(setSignStatus('signin')) // TODO checkAuth
     };
 
     const {

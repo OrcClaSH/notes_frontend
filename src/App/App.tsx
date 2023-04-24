@@ -1,15 +1,21 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
-import ContentPage from './pages/ContentPage';
+import { useAuth } from '@/hooks/useAuth';
 import MainLayout from '@/layouts/MainLayout';
 import StartPage from './pages/StartPage/StartPage';
 import { RequireAuth } from '@/hoc/RequireAuth';
+import ContentPage from './pages/ContentPage/ContentPage';
 
 import '@/assets/scss/App.scss';
-import { useAuth } from '@/hooks/useAuth';
+import { useEffect } from 'react';
 
 function App() {
-  useAuth()
+  const navigate = useNavigate();
+  const {isAuth} = useAuth();
+
+  useEffect(() => {
+    if (isAuth) navigate('/notes');
+}, [isAuth]);
 
   return (
     <Routes>

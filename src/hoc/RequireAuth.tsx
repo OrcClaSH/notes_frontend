@@ -5,9 +5,9 @@ import { useAuth } from "@/hooks/useAuth";
 
 const RequireAuth: FC<PropsWithChildren> = ({ children }) => {
     const location = useLocation();
-    const {isAuth, isRendered} = useAuth();
+    const { isAuth, isRendered } = useAuth();
 
-    if (!isAuth && isRendered) {
+    if (!isAuth) {
         return <Navigate to='/' state={{ from: location }} />
     }
 
