@@ -60,15 +60,16 @@ export const getUser = createAsyncThunk<IUser, void, { rejectValue: string }>(
     }
 );
 
-export const checkAuth = createAsyncThunk<IAuthResponse, IArgs, { rejectValue: string }>(
+export const checkAuth = createAsyncThunk<boolean, void, { rejectValue: string }>(
     'user/checkAuth',
     async function (_, { rejectWithValue }) {
-        const response = await WithAuthService.refresh();
+        const token = localStorage.getItem('token') || ''
+        const response = await WithAuthService.verifyToken(token);
 
         if (response.status !== 200) {
             return rejectWithValue('Проблемы с обновлением токена пользователя')
         }
-        return response.data;
+        return response.data.detail === 'Token is valid';
     }
 );
 
@@ -107,10 +108,8 @@ export const userSlice = createSlice({
             })
             .addCase(checkAuth.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isAuth = true;
+                state.isAuth = action.payload;
                 state.error = '';
-                // state.user = action.payload.user;
-                localStorage.setItem('token', action.payload.access);
             })
             .addCase(checkAuth.rejected, (state, action) => {
                 state.isLoading = false;
@@ -122,7 +121,7 @@ export const userSlice = createSlice({
             })
             .addCase(getUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isAuth = true; //TODO temp test
+                state.isAuth = true; // TODO temp test
                 state.user = action.payload;
                 state.error = '';
             })
@@ -150,3 +149,5 @@ export const userSlice = createSlice({
 export default userSlice.reducer;
 
 export const { logout, setSignStatus } = userSlice.actions;
+
+// export const { reducer: userReducer, actions: userActions } = userSlice; //

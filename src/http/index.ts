@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-import { IAuthResponse } from '@/store/slices/user/types';
-
 export const API_URL = import.meta.env.VITE_API_URL
-    // || 'http://clt.its:8000/api/v1';
 
 const $api = axios.create({
     withCredentials: true,
@@ -18,7 +15,8 @@ $api.interceptors.request.use((config) => {
     return config;
 });
 
-// TODO We are waiting for the implementation of token verification in API
+// TODO We are waiting for the implementation of token verification in API.
+// refreshToken is not integrated into the cookie and httpOnly param
 // $api.interceptors.response.use((config) => config, async (error) => {
 //     const originalRequest = error.config;
 //     if (error.response.status == 401 && error.config && !error.config._isRetry) {
@@ -28,7 +26,7 @@ $api.interceptors.request.use((config) => {
 //             localStorage.setItem('token', response.data.access);
 //             return $api.request(originalRequest);
 //         } catch (e) {
-//             console.log('[interceptors] Not authorized')
+//             console.log('[interceptors] Not authorized', e)
 //         }
 //     }
 //     throw error;

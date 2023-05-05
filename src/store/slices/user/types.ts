@@ -19,3 +19,7 @@ export interface IUserState {
     error: string;
     signStatus: '' | 'signin' | 'signup';
 };
+
+export interface IVerifyToken {
+    detail: string;
+}

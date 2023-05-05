@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import $api from "../http";
 import { INote } from '@/store/slices/notes/types';
 import { ITheme } from '@/store/slices/themes/types';
-import { IAuthResponse, IUser } from '@/store/slices/user/types';
+import { IAuthResponse, IUser, IVerifyToken } from '@/store/slices/user/types';
 
 export default class WithAuthService {
 
@@ -67,6 +67,10 @@ export default class WithAuthService {
 
     static async searchNotes(text: string): Promise<AxiosResponse<INote[]>> {
         return $api.get<INote[]>(`/notes?search=${text}`, { withCredentials: true })
+    }
+
+    static async verifyToken(token: string): Promise<AxiosResponse<{ detail: string }>> {
+        return $api.post<IVerifyToken>('/verify', { token })
     }
 
 };
